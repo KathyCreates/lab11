@@ -1,38 +1,32 @@
 package com.example;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import javafx.collections.FXCollections;
 
-/**
- * Unit test for simple ToDoListApp.
- */
-public class ToDoListAppTest
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public ToDoListAppTest(String testName )
-    {
-        super( testName );
+public class ToDoListAppTest {
+
+    private ToDoListApp app;
+
+    @Before
+    public void setUp() {
+        // Ініціалізуємо об'єкт ToDoListApp
+        app = new ToDoListApp();
+        // Ініціалізація tasks без виклику start
+        app.tasks = FXCollections.observableArrayList();
     }
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( ToDoListAppTest.class );
+    @Test
+    public void testAddTask() {
+        app.addTask("New Task");
+        assertEquals(1, app.getTasks().size());
     }
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void testRemoveTask() {
+        app.addTask("Task to Remove");
+        app.removeTask("Task to Remove");
+        assertEquals(0, app.getTasks().size());
     }
 }

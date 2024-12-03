@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class ToDoListApp extends Application {
 
-    private ObservableList<String> tasks;
+    public ObservableList<String> tasks;
 
     @Override
     public void start(Stage stage) {
@@ -24,15 +24,17 @@ public class ToDoListApp extends Application {
         Button removeButton = new Button("Remove Selected Task");
 
         addButton.setOnAction(e -> {
-            if (!taskInput.getText().isEmpty()) {
-                tasks.add(taskInput.getText());
-                taskInput.clear();
-            }
+            // Додаємо задачу, якщо поле не порожнє
+            addTask(taskInput.getText());
+            taskInput.clear();
         });
 
         removeButton.setOnAction(e -> {
+            // Видаляємо вибрану задачу
             String selectedTask = taskList.getSelectionModel().getSelectedItem();
-            tasks.remove(selectedTask);
+            if (selectedTask != null) {
+                removeTask(selectedTask);
+            }
         });
 
         VBox layout = new VBox(10, taskInput, addButton, removeButton, taskList);
@@ -43,8 +45,24 @@ public class ToDoListApp extends Application {
         stage.show();
     }
 
+    // Додаємо задачу до списку
+    public void addTask(String task) {
+        if (task != null && !task.isEmpty()) {
+            tasks.add(task);
+        }
+    }
+
+    // Видаляємо задачу зі списку
+    public void removeTask(String task) {
+        tasks.remove(task);
+    }
+
+    // Отримуємо список задач
+    public ObservableList<String> getTasks() {
+        return tasks;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
 }
-
